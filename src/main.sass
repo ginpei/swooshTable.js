@@ -1,0 +1,69 @@
+body
+	margin: 0
+	min-height: 5000px;
+
+$ui-tableView-backgroundColor: #fff
+$ui-tableView-subtitleColor: #999
+$ui-tableView-subtitleSize: 0.7em
+
+.ui-tableView
+	display: block
+	overflow: hidden
+	width: 100%
+
+	&>tbody
+		display: block
+
+	&-row
+		background-color: $ui-tableView-backgroundColor
+		display: block
+		transition: transform 250ms
+
+		&--swiping
+			transition: none
+
+	&-cell
+		display: block
+
+		&-title
+
+		&-subtitle
+			color: $ui-tableView-subtitleColor
+			font-size: $ui-tableView-subtitleSize
+
+	&-rowTools
+		display: block
+		position: absolute
+		right: 0
+		top: -9999px
+		z-index: -1
+
+// --------------------------------
+
+.ui-tableView
+	border-color: #999
+	border-style: solid none
+	border-width: 1px
+
+	&-row
+		border-color: #999
+		border-style: solid none
+		border-width: 1px
+		margin-bottom: -1px
+
+		&:first-child
+			border-top-style: none
+		&:last-child
+			border-bottom-style: none
+			margin-bottom: 0
+
+.rowTools-item
+	background-color: #ccc
+	border: none
+	color: #fff
+	float: right
+	height: 100%
+	padding: 0 1em
+
+	&-delete
+		background-color: #f00

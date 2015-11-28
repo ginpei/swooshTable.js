@@ -1,0 +1,52 @@
+body {
+  margin: 0;
+  min-height: 5000px; }
+
+.ui-tableView {
+  display: block;
+  overflow: hidden;
+  width: 100%; }
+  .ui-tableView > tbody {
+    display: block; }
+  .ui-tableView-row {
+    background-color: #fff;
+    display: block;
+    transition: transform 250ms; }
+    .ui-tableView-row--swiping {
+      transition: none; }
+  .ui-tableView-cell {
+    display: block; }
+    .ui-tableView-cell-subtitle {
+      color: #999;
+      font-size: 0.7em; }
+  .ui-tableView-rowTools {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: -9999px;
+    z-index: -1; }
+
+.ui-tableView {
+  border-color: #999;
+  border-style: solid none;
+  border-width: 1px; }
+  .ui-tableView-row {
+    border-color: #999;
+    border-style: solid none;
+    border-width: 1px;
+    margin-bottom: -1px; }
+    .ui-tableView-row:first-child {
+      border-top-style: none; }
+    .ui-tableView-row:last-child {
+      border-bottom-style: none;
+      margin-bottom: 0; }
+
+.rowTools-item {
+  background-color: #ccc;
+  border: none;
+  color: #fff;
+  float: right;
+  height: 100%;
+  padding: 0 1em; }
+  .rowTools-item-delete {
+    background-color: #f00; }

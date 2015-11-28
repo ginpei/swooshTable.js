@@ -1,0 +1,38 @@
+doctype html
+html(lang='en')
+	head
+		meta(charset='UTF-8')
+		meta(name="viewport" content="width=320")
+		title iOS Table View
+		link(rel='stylesheet', href='css.css')
+	body
+
+		h1 iOS Table View
+
+		table.ui-tableView.js-table
+			tbody
+				tr.ui-tableView-row
+					td.ui-tableView-cell.ui-tableView-cell-title Fox
+					td.ui-tableView-cell.ui-tableView-cell-subtitle The quick brown fox jumps over the lazy dog
+				tr.ui-tableView-row
+					td.ui-tableView-cell.ui-tableView-cell-title Fox
+					td.ui-tableView-cell.ui-tableView-cell-subtitle The quick brown fox jumps over the lazy dog
+				tr.ui-tableView-row
+					td.ui-tableView-cell.ui-tableView-cell-title Fox
+					td.ui-tableView-cell.ui-tableView-cell-subtitle The quick brown fox jumps over the lazy dog
+				tr.ui-tableView-row
+					td.ui-tableView-cell.ui-tableView-cell-title Fox
+					td.ui-tableView-cell.ui-tableView-cell-subtitle The quick brown fox jumps over the lazy dog
+				tr.ui-tableView-row
+					td.ui-tableView-cell.ui-tableView-cell-title Fox
+					td.ui-tableView-cell.ui-tableView-cell-subtitle The quick brown fox jumps over the lazy dog
+
+		div.ui-tableView-rowTools
+			button.rowTools-item.rowTools-item-delete.js-delete Delete
+			button.rowTools-item.rowTools-item-move.js-move Move
+
+		script(src="jquery.min.js")
+		script(src="src/ui-swipe.js")
+		script(src="src/main.js")
+		script.
+			new TableView({ el:$('.js-table') });
