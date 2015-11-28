@@ -188,7 +188,7 @@ on:h.on,trigger:h[e]}),t}();
 		},
 
 		_initDelete: function() {
-			this.$rowTools = $('.ui-tableView-rowTools');
+			this.$rowTools = $('.ui-swooshTable-rowTools');
 
 			var $row = this.$el;
 			var pos = $row.offset();
@@ -243,7 +243,7 @@ on:h.on,trigger:h[e]}),t}();
 			var status = this.status;
 			var $el = this.$el;
 
-			$el.toggleClass('ui-tableView-row--swiping', status.isSwiping());
+			$el.toggleClass('ui-swooshTable-row--swiping', status.isSwiping());
 		},
 
 		/**

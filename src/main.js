@@ -23,7 +23,7 @@ on:h.on,trigger:h[e]}),t}();
 
 	var TableView = Osteoporosis.View.extend({
 		initialize: function() {
-			this.$el.find('.ui-tableView-row').each(function(i, elRow) {
+			this.$el.find('.ui-swooshTable-row').each(function(i, elRow) {
 				var view = new window.UISwipe({ el:elRow });
 			});
 		}
