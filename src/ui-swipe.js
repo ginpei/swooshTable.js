@@ -152,7 +152,7 @@ on:h.on,trigger:h[e]}),t}();
 	 */
 	UISwipe = Osteoporosis.View.extend({
 		initialize: function(options) {
-			this.$rowTools = options.$rowTools;
+			this.create$rowTools = options.create$rowTools;
 
 			// prepare models
 			this.status = new Status();
@@ -191,10 +191,18 @@ on:h.on,trigger:h[e]}),t}();
 
 		_initDelete: function() {
 			var $row = this.$el;
+			var $tools = this.$rowTools;
+
+			if (!$tools) {
+				var $tools = this.$rowTools = this.create$rowTools();
+			}
+
+			$tools.css({ display:'block' });
+
 			var pos = $row.offset();
 			var height = $row.outerHeight();
 			var width = $row.outerWidth();
-			this.$rowTools.css({
+			$tools.css({
 				height: height,
 				lineHeight: height+'px',
 				top: pos.top
@@ -202,7 +210,7 @@ on:h.on,trigger:h[e]}),t}();
 
 			this.status.set({
 				maxLeft: 0,
-				minLeft: -this.$rowTools.outerWidth()
+				minLeft: -$tools.outerWidth()
 			});
 		},
 
@@ -327,6 +335,10 @@ on:h.on,trigger:h[e]}),t}();
 
 		status_onchange_deltaX: function(model, value) {
 			this._updateLeft();
+
+			if (value === 0) {
+				this.$rowTools.css({ display:'none' });
+			}
 		},
 
 		el_onmousedown: function(event) {
@@ -453,8 +465,12 @@ on:h.on,trigger:h[e]}),t}();
 			var views = this.subViews = [];
 			var $rows = this.$('>tr, >tbody>tr');
 			var $rowTools = this.$rowTools;
+			var create$rowTools = this._create$rowTools.bind(this);
 			$rows.each(function(index, elRow) {
-				var view = new UISwipe({ el:elRow, $rowTools:$rowTools });
+				var view = new UISwipe({
+					el: elRow,
+					create$rowTools: create$rowTools,
+				});
 				views.push(view);
 			});
 		},
