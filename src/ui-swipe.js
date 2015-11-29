@@ -152,6 +152,8 @@ on:h.on,trigger:h[e]}),t}();
 	 */
 	UISwipe = Osteoporosis.View.extend({
 		initialize: function(options) {
+			this.$rowTools = options.$rowTools;
+
 			// prepare models
 			this.status = new Status();
 
@@ -188,8 +190,6 @@ on:h.on,trigger:h[e]}),t}();
 		},
 
 		_initDelete: function() {
-			this.$rowTools = $('.ui-swooshTable-rowTools');
-
 			var $row = this.$el;
 			var pos = $row.offset();
 			var height = $row.outerHeight();
@@ -439,16 +439,46 @@ on:h.on,trigger:h[e]}),t}();
 				this.el = this.$el[0];
 			}
 
+			if (options.$rowTools) {
+				this.$rowTools = options.$rowTools;
+			}
+			else {
+				this.$rowTools = this._create$rowTools();
+			}
+
 			this._initSubViews();
 		},
 
 		_initSubViews: function() {
 			var views = this.subViews = [];
 			var $rows = this.$('>tr, >tbody>tr');
+			var $rowTools = this.$rowTools;
 			$rows.each(function(index, elRow) {
-				var view = new UISwipe({ el:elRow });
+				var view = new UISwipe({ el:elRow, $rowTools:$rowTools });
 				views.push(view);
 			});
+		},
+
+		/**
+		 * Create an unique element which is provides buttons for each row.
+		 * @returns {Element}
+		 */
+		_create$rowTools: function() {
+			var $rowTools = $(this._template$rowTools({}));
+			$rowTools.appendTo(document.body);
+			return $rowTools;
+		},
+
+		_template$rowTools: function(data) {
+			var html =
+				'<div class="ui-swooshTable-rowTools">' +
+					'<button class="rowTools-item rowTools-item-delete js-delete">Delete</button>' +
+					'<button class="rowTools-item rowTools-item-move js-move">Move</button>' +
+				'</div>';
+			var elFactory = document.createElement('div');
+			elFactory.insertAdjacentHTML('afterbegin', html);
+			var el = elFactory.firstChild;
+			return el;
 		}
 	});
 
