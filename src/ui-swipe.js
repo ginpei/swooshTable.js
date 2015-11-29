@@ -423,8 +423,39 @@ on:h.on,trigger:h[e]}),t}();
 	});
 
 	// ----------------------------------------------------------------
+	// SwooshTable
+
+	var SwooshTable = Osteoporosis.View.extend({
+		/**
+		 * @type Array
+		 */
+		subViews: null,
+
+		initialize: function(options) {
+			if (typeof options === 'string') {
+				var selector = options;
+				options = {};
+				this.$el = $(selector);
+				this.el = this.$el[0];
+			}
+
+			this._initSubViews();
+		},
+
+		_initSubViews: function() {
+			var views = this.subViews = [];
+			var $rows = this.$('>tr, >tbody>tr');
+			$rows.each(function(index, elRow) {
+				var view = new UISwipe({ el:elRow });
+				views.push(view);
+			});
+		}
+	});
+
+	// ----------------------------------------------------------------
 	// export
 
 	UISwipe.Status = Status;
 	window.UISwipe = UISwipe;
+	window.SwooshTable = SwooshTable;
 })(window, document, window.$);
