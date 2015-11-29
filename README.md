@@ -51,3 +51,32 @@ theTable.on('removerow', function(event, elRow) {
 });
 </script>
 ```
+
+# References
+
+## `window.SwooshTable(el)`
+
+Set up a new SwooshTable UI.
+
+* @param {Element} el
+* @returns {SwooshTable}
+
+This initialization add classes required by SwooshTable UI to related elements.
+
+Returns an instance of SwooshTable.
+Observe its event via `on()` to know user actions.
+
+## `on(type, listener)`
+
+Add an event listener for specified event type.
+
+* @param {String} type
+* @param {Function} listener
+* @returns {SwooshTable} Own self.
+
+## Events and Callbacks
+
+### `removerow`; `event`, `elRow`
+
+* @param {Event} Event Original click event.
+* @param {Element} elRow Target row element.
