@@ -11,7 +11,8 @@ body {
   .ui-swooshTable-row {
     background-color: #fff;
     display: block;
-    transition: transform 250ms; }
+    transition: transform 250ms;
+    z-index: 2; }
     .ui-swooshTable-row--swiping {
       transition: none; }
   .ui-swooshTable-cell {
@@ -23,8 +24,7 @@ body {
     display: block;
     position: absolute;
     right: 0;
-    top: -9999px;
-    z-index: -1; }
+    top: -9999px; }
 
 .ui-swooshTable {
   border-color: #999;

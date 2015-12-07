@@ -65,6 +65,39 @@ on:h.on,trigger:h[e]}),t}();
 	};
 
 	// ----------------------------------------------------------------
+	// Util
+
+	/**
+	 * Return the closest element from specified element.
+	 * @param {Element} el
+	 * @param {String} selector
+	 * @returns {Element} Or `null`.
+	 */
+	function getClosest(el, selector) {
+		if (el.closest) {
+			return el.closest(selector);
+		}
+		else {
+			return $(el).closest(selector)[0];
+		}
+	}
+
+	/**
+	 * Return the element which is matched to specified condition.
+	 * @param {Array} arr
+	 * @param {Function} callback(element, index, array)
+	 */
+	function findFromArray(arr, callback) {
+		if (arr.find) {
+			return arr.find(callback);
+		}
+		else {
+			return $.grep(arr, callback)[0];
+		}
+	}
+
+	// ----------------------------------------------------------------
+	// Status
 
 	/**
 	 * Manage user action status.
@@ -145,6 +178,7 @@ on:h.on,trigger:h[e]}),t}();
 	});
 
 	// ----------------------------------------------------------------
+	// UISwipe
 
 	/**
 	 * UI for swiping.
@@ -197,7 +231,8 @@ on:h.on,trigger:h[e]}),t}();
 			var $tools = this.$rowTools;
 
 			if (!$tools) {
-				var $tools = this.$rowTools = this.create$rowTools();
+				this._initRowTools();
+				var $tools = this.$rowTools;
 			}
 
 			$tools.css({ display:'block' });
@@ -215,6 +250,18 @@ on:h.on,trigger:h[e]}),t}();
 				maxLeft: 0,
 				minLeft: -$tools.outerWidth()
 			});
+		},
+
+		/**
+		 * Initialize row tool buttons.
+		 * Run only first time.
+		 */
+		_initRowTools: function() {
+			var $tools = this.create$rowTools();
+			this.$rowTools = $tools;
+			this.elRowTools = $tools[0];
+
+			this.listenTo($tools, 'click', this.rowTools_onclick);
 		},
 
 		/**
@@ -293,6 +340,33 @@ on:h.on,trigger:h[e]}),t}();
 			return positions;
 		},
 
+		/**
+		 * Detach resources.
+		 */
+		destroy: function() {
+			// Maybe not enough...
+
+			this.$el.remove();
+			this.$rowTools.remove();
+		},
+
+		/**
+		 * Return true if specified event is occured on tool element.
+		 * @param {Event} event
+		 * @returns {Boolean}
+		 */
+		isEventOccuredOnRowTools: function(event) {
+			var elRowTools = this.elRowTools;
+			var onTools = false;
+			for (var el=event.target; el; el=el.parentElement) {
+				if (el === elRowTools) {
+					onTools = true;
+					break;
+				}
+			}
+			return onTools;
+		},
+
 		status_onchange_phase: function(status, phase) {
 			var attr = status.attributes;
 
@@ -359,7 +433,7 @@ on:h.on,trigger:h[e]}),t}();
 		document_onmousedown: function(event) {
 			var status = this.status;
 
-			if (status.isSwipedOver()) {
+			if (!this.isEventOccuredOnRowTools(event) && status.isSwipedOver()) {
 				status.set({ phase:status.PHASE_WAITING });
 			}
 		},
@@ -434,6 +508,11 @@ on:h.on,trigger:h[e]}),t}();
 			if (!status.isSwipedOver()) {
 				status.set({ phase:status.PHASE_WAITING });
 			}
+		},
+
+		rowTools_onclick: function(event) {
+			var elButton = event.target.closest('.ui-swooshTable-toolButon');
+			this.trigger('click', this, event, elButton);
 		}
 	});
 
@@ -474,8 +553,9 @@ on:h.on,trigger:h[e]}),t}();
 					el: elRow,
 					create$rowTools: create$rowTools,
 				});
+				this.listenTo(view, 'click', this.subView_onclick);
 				views.push(view);
-			});
+			}.bind(this));
 		},
 
 		/**
@@ -491,13 +571,28 @@ on:h.on,trigger:h[e]}),t}();
 		_template$rowTools: function(data) {
 			var html =
 				'<div class="ui-swooshTable-rowTools">' +
-					'<button class="rowTools-item rowTools-item-delete js-delete">Delete</button>' +
-					'<button class="rowTools-item rowTools-item-move js-move">Move</button>' +
+					'<button class="ui-swooshTable-toolButon rowTools-item rowTools-item-delete">Delete</button>' +
+					'<button class="ui-swooshTable-toolButon rowTools-item rowTools-item-move">Move</button>' +
 				'</div>';
 			var elFactory = document.createElement('div');
 			elFactory.insertAdjacentHTML('afterbegin', html);
 			var el = elFactory.firstChild;
 			return el;
+		},
+
+		/**
+		 * Remove specified row and its resources.
+		 * @param {Element} elRow
+		 */
+		removeRow: function(elRow) {
+			var view = findFromArray(this.subViews, function(view) {
+				return (view.$el[0] === elRow);
+			});
+			view.destroy();
+		},
+
+		subView_onclick: function(view, event, elButton) {
+			this.trigger('click', event, view.$el[0], elButton);
 		}
 	});
 

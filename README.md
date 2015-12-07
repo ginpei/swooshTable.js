@@ -76,7 +76,9 @@ Add an event listener for specified event type.
 
 ## Events and Callbacks
 
-### `removerow`; `event`, `elRow`
+### on `click` ( `event`, `elRow`, `elButton` )
+
+When user clicks or taps buttons.
 
 * @param {Event} Event Original click event.
 * @param {Element} elRow Target row element.
