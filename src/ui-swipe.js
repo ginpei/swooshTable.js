@@ -181,7 +181,7 @@ on:h.on,trigger:h[e]}),t}();
 		 * @param {Number} positions.y
 		 */
 		startPremoving: function(positions) {
-			this._initDelete();
+			this._setupTools();
 			this.status.set({
 				fromX: positions.x,
 				fromY: positions.y
@@ -189,7 +189,10 @@ on:h.on,trigger:h[e]}),t}();
 			this.status.set({ premoving:true });
 		},
 
-		_initDelete: function() {
+		/**
+		 * Set up tool buttons.
+		 */
+		_setupTools: function() {
 			var $row = this.$el;
 			var $tools = this.$rowTools;
 
@@ -305,7 +308,7 @@ on:h.on,trigger:h[e]}),t}();
 			else if (phase === status.PHASE_PREACTION) {
 			}
 			else if (phase === status.PHASE_SWIPING) {
-				this._initDelete();
+				this._setupTools();
 				status.set({
 					fromX: attr.curX,
 					fromY: attr.curY
