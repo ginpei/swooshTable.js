@@ -37,9 +37,12 @@
     <script src="src/main.js"></script>
     <script>
       var swooshTable = new SwooshTable('.js-table');
-      swooshTable.on('click', function(event, elRow, elButton) {
+      swooshTable.on('click', function(event, row, elButton) {
       	if (elButton.classList.contains('rowTools-item-delete')) {
-      		swooshTable.removeRow(elRow);
+      		row.restore();
+      		row.$el.slideUp(function() {
+      			swooshTable.removeRow(row);
+      		});
       	}
       });
     </script>

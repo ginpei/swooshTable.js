@@ -76,9 +76,9 @@ Add an event listener for specified event type.
 
 ## Events and Callbacks
 
-### on `click` ( `event`, `elRow`, `elButton` )
+### on `click` ( `event`, `row`, `elButton` )
 
 When user clicks or taps buttons.
 
 * @param {Event} Event Original click event.
-* @param {Element} elRow Target row element.
+* @param {SwooshTable.UISwipe} row Target row object.

@@ -341,6 +341,13 @@ on:h.on,trigger:h[e]}),t}();
 		},
 
 		/**
+		 * Get back to the original position.
+		 */
+		restore: function() {
+			this.status.set({ phase:'waiting' });
+		},
+
+		/**
 		 * Detach resources.
 		 */
 		destroy: function() {
@@ -582,17 +589,20 @@ on:h.on,trigger:h[e]}),t}();
 
 		/**
 		 * Remove specified row and its resources.
-		 * @param {Element} elRow
+		 * @param {UISwipe|Element} row
 		 */
-		removeRow: function(elRow) {
-			var view = findFromArray(this.subViews, function(view) {
-				return (view.$el[0] === elRow);
-			});
-			view.destroy();
+		removeRow: function(row) {
+			if (!(row instanceof UISwipe)) {
+				var elRow = row;
+				row = findFromArray(this.subViews, function(view) {
+					return (view.$el[0] === elRow);
+				});
+			}
+			row.destroy();
 		},
 
 		subView_onclick: function(view, event, elButton) {
-			this.trigger('click', event, view.$el[0], elButton);
+			this.trigger('click', event, view, elButton);
 		}
 	});
 
