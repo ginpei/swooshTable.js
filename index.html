@@ -1,50 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=320">
-    <title>SwooshTable.js</title>
-    <link rel="stylesheet" href="css.css">
-  </head>
-  <body>
-    <h1>SwooshTable.js</h1>
-    <table class="ui-swooshTable js-table">
-      <tbody>
-        <tr class="ui-swooshTable-row">
-          <td class="ui-swooshTable-cell ui-swooshTable-cell-title">Fox 1</td>
-          <td class="ui-swooshTable-cell ui-swooshTable-cell-subtitle">The quick brown fox jumps over the lazy dog</td>
-        </tr>
-        <tr class="ui-swooshTable-row">
-          <td class="ui-swooshTable-cell ui-swooshTable-cell-title">Fox 2</td>
-          <td class="ui-swooshTable-cell ui-swooshTable-cell-subtitle">The quick brown fox jumps over the lazy dog</td>
-        </tr>
-        <tr class="ui-swooshTable-row">
-          <td class="ui-swooshTable-cell ui-swooshTable-cell-title">Fox 3</td>
-          <td class="ui-swooshTable-cell ui-swooshTable-cell-subtitle">The quick brown fox jumps over the lazy dog</td>
-        </tr>
-        <tr class="ui-swooshTable-row">
-          <td class="ui-swooshTable-cell ui-swooshTable-cell-title">Fox 4</td>
-          <td class="ui-swooshTable-cell ui-swooshTable-cell-subtitle">The quick brown fox jumps over the lazy dog</td>
-        </tr>
-        <tr class="ui-swooshTable-row">
-          <td class="ui-swooshTable-cell ui-swooshTable-cell-title">Fox 5</td>
-          <td class="ui-swooshTable-cell ui-swooshTable-cell-subtitle">The quick brown fox jumps over the lazy dog</td>
-        </tr>
-      </tbody>
-    </table>
-    <script src="jquery.min.js"></script>
-    <script src="src/ui-swipe.js"></script>
-    <script src="src/main.js"></script>
-    <script>
-      var swooshTable = new SwooshTable('.js-table');
-      swooshTable.on('click', function(event, row, elButton) {
-      	if (elButton.classList.contains('rowTools-item-delete')) {
-      		row.restore();
-      		row.$el.slideUp(function() {
-      			swooshTable.removeRow(row);
-      		});
-      	}
-      });
-    </script>
-  </body>
-</html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=320"><title>SwooshTable.js</title><link rel="stylesheet" href="main.css"></head><body><h1>SwooshTable.js</h1><table class="ui-swooshTable js-table"><tbody><tr class="ui-swooshTable-row"><td class="ui-swooshTable-cell ui-swooshTable-cell-title">Fox 1</td><td class="ui-swooshTable-cell ui-swooshTable-cell-subtitle">The quick brown fox jumps over the lazy dog</td></tr><tr class="ui-swooshTable-row"><td class="ui-swooshTable-cell ui-swooshTable-cell-title">Fox 2</td><td class="ui-swooshTable-cell ui-swooshTable-cell-subtitle">The quick brown fox jumps over the lazy dog</td></tr><tr class="ui-swooshTable-row"><td class="ui-swooshTable-cell ui-swooshTable-cell-title">Fox 3</td><td class="ui-swooshTable-cell ui-swooshTable-cell-subtitle">The quick brown fox jumps over the lazy dog</td></tr><tr class="ui-swooshTable-row"><td class="ui-swooshTable-cell ui-swooshTable-cell-title">Fox 4</td><td class="ui-swooshTable-cell ui-swooshTable-cell-subtitle">The quick brown fox jumps over the lazy dog</td></tr><tr class="ui-swooshTable-row"><td class="ui-swooshTable-cell ui-swooshTable-cell-title">Fox 5</td><td class="ui-swooshTable-cell ui-swooshTable-cell-subtitle">The quick brown fox jumps over the lazy dog</td></tr></tbody></table><script src="jquery.min.js"></script><script src="src/ui-swipe.js"></script><script src="src/main.js"></script><script>var swooshTable = new SwooshTable('.js-table');
+swooshTable.on('click', function(event, row, elButton) {
+	if (elButton.classList.contains('rowTools-item-delete')) {
+		row.restore();
+		row.$el.slideUp(function() {
+			swooshTable.removeRow(row);
+		});
+	}
+});</script></body></html>
