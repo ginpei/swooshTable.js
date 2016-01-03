@@ -1,6 +1,7 @@
 g = require 'gulp'
 jade = require 'gulp-jade'
 sass = require 'gulp-sass'
+webserver = require 'gulp-webserver'
 
 path =
 	src:
@@ -23,9 +24,15 @@ g.task 'html', ->
 		.pipe jade(client:false)
 		.pipe g.dest(path.dest.html)
 
-g.task 'watch', ->
+g.task 'watch', ['webserver'], ->
 	g.watch path.src.css, ['css']
 	g.watch path.src.html, ['html']
+
+g.task 'webserver', ['build'], ->
+	g.src '.'
+		.pipe webserver
+			host: '0.0.0.0'
+			port: 3000
 
 g.task 'build', [
 	'css'
