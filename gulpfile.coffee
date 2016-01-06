@@ -2,6 +2,7 @@ g = require 'gulp'
 jade = require 'gulp-jade'
 livereload = require 'gulp-livereload'
 sass = require 'gulp-sass'
+sourcemaps = require 'gulp-sourcemaps'
 webserver = require 'gulp-webserver'
 
 path =
@@ -17,13 +18,17 @@ g.task 'clean', ->
 
 g.task 'css', ->
 	g.src path.src.css
+		.pipe sourcemaps.init()
 		.pipe sass( style:'minify' )
+		.pipe sourcemaps.write()
 		.pipe g.dest(path.dest.css)
 		.pipe livereload()
 
 g.task 'html', ->
 	g.src path.src.html
+		.pipe sourcemaps.init()
 		.pipe jade(client:false)
+		.pipe sourcemaps.write()
 		.pipe g.dest(path.dest.html)
 		.pipe livereload()
 
