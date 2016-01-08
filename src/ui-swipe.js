@@ -421,7 +421,9 @@
 			this._updateLeft();
 
 			if (value === 0) {
-				this.$rowTools.css({ display:'none' });
+				if (this.$rowTools) {
+					this.$rowTools.css({ display:'none' });
+				}
 			}
 		},
 
