@@ -1,4 +1,6 @@
 (function(window, document, $) {
+	'use strict';
+
 	/*! Osteoporosis.js v0.0.2 By TAKANASHI Ginpei */
 	var Osteoporosis=function(){var t={},i="prototype",n="extend",e=
 	"trigger",o="attributes",r="_listeners",s=[].slice,u="undefined"
@@ -184,7 +186,7 @@
 	 * UI for swiping.
 	 * @constructor
 	 */
-	UISwipe = Osteoporosis.View.extend({
+	var UISwipe = Osteoporosis.View.extend({
 		initialize: function(options) {
 			this.create$rowTools = options.create$rowTools;
 
@@ -449,7 +451,7 @@
 
 		document_onmousemove: function(event) {
 			var status = this.status;
-			var position;
+			var positions;
 
 			if (status.isPreaction() || status.isSwiping()) {
 				positions = this.getPositionsFromEvent(event);
