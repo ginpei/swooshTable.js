@@ -2,7 +2,7 @@
 	var elScript = document.createElement('script');
 	elScript.src = '//' + location.hostname + ':35729/livereload.js';
 	document.body.appendChild(elScript);
-}</script><script src="jquery.min.js"></script><script src="src/ui-swipe.js"></script><script src="src/main.js"></script><script>var swooshTable = new SwooshTable('.js-table');
+}</script><script src="jquery.min.js"></script><script src="ui-swipe.js"></script><script src="main.js"></script><script>var swooshTable = new SwooshTable('.js-table');
 swooshTable.on('click', function(event, row, elButton) {
 	if (elButton.classList.contains('rowTools-item-delete')) {
 		row.restore();

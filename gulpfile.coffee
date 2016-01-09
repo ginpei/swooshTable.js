@@ -9,9 +9,13 @@ path =
 	src:
 		css: 'src/**/*.sass'
 		html: 'src/**/*.jade'
+		js: 'src/**/*.js'
+		lib: 'lib/**/*'
 	dest:
 		css: '.'
 		html: '.'
+		js: '.'
+		lib: '.'
 
 g.task 'clean', ->
 	del 'public'
@@ -32,10 +36,20 @@ g.task 'html', ->
 		.pipe g.dest(path.dest.html)
 		.pipe livereload()
 
+g.task 'js', ->
+	g.src path.src.js
+		.pipe g.dest(path.dest.js)
+		.pipe livereload()
+
+g.task 'lib', ->
+	g.src path.src.lib
+		.pipe g.dest(path.dest.lib)
+
 g.task 'watch', ['webserver'], ->
 	livereload.listen()
 	g.watch path.src.css, ['css']
 	g.watch path.src.html, ['html']
+	g.watch path.src.js, ['js']
 
 g.task 'webserver', ['build'], ->
 	g.src '.'
@@ -46,6 +60,8 @@ g.task 'webserver', ['build'], ->
 g.task 'build', [
 	'css'
 	'html'
+	'js'
+	'lib'
 ]
 
 g.task 'default', [ 'watch' ]
