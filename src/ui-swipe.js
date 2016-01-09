@@ -1,6 +1,4 @@
 (function(window, document, $) {
-	'use strict';
-
 	/*! Osteoporosis.js v0.0.2 By TAKANASHI Ginpei */
 	var Osteoporosis=function(){var t={},i="prototype",n="extend",e=
 	"trigger",o="attributes",r="_listeners",s=[].slice,u="undefined"

@@ -1,3 +1,4 @@
+babel = require 'gulp-babel'
 g = require 'gulp'
 jade = require 'gulp-jade'
 livereload = require 'gulp-livereload'
@@ -38,6 +39,9 @@ g.task 'html', ->
 
 g.task 'js', ->
 	g.src path.src.js
+		.pipe sourcemaps.init()
+		.pipe babel(presets:'es2015')
+		.pipe sourcemaps.write()
 		.pipe g.dest(path.dest.js)
 		.pipe livereload()
 
