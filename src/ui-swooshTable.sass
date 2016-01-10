@@ -1,0 +1,35 @@
+$ui-swooshTable-backgroundColor: #fff
+$ui-swooshTable-subtitleColor: #999
+$ui-swooshTable-subtitleSize: 0.7em
+
+.ui-swooshTable
+	display: block
+	overflow: hidden
+	width: 100%
+
+	&>tbody
+		display: block
+
+	&-row
+		background-color: $ui-swooshTable-backgroundColor
+		display: block
+		transition: transform 250ms
+		z-index: 2
+
+		&--swiping
+			transition: none
+
+	&-cell
+		display: block
+
+		&-title
+
+		&-subtitle
+			color: $ui-swooshTable-subtitleColor
+			font-size: $ui-swooshTable-subtitleSize
+
+	&-rowTools
+		display: block
+		position: absolute
+		right: 0
+		top: -9999px
