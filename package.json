@@ -13,7 +13,7 @@
     "gulp-webserver": "^0.9.1"
   },
   "scripts": {
-    "clean": "./node_modules/.bin/gulp clean",
-    "start": "./node_modules/.bin/gulp"
+    "clean": "gulp clean",
+    "start": "gulp"
   }
 }
