@@ -1,22 +1,6 @@
-(function(window, document) {
-	// ----------------------------------------------------------------
-	// Basic Example
-	let swooshTable = new SwooshTable('.js-basicExample');
-	swooshTable.on('click', function(event, row, elButton) {
-		// Restore the row to original position
-		row.restore();
-
-		// Remove the row
-		row.$el.slideUp(function() {
-			swooshTable.removeRow(row);
-		});
-	});
-
-	// ----------------------------------------------------------------
-	// LiveReload
-	if (location.search === '?live') {
-		var elScript = document.createElement('script');
-		elScript.src = '//' + location.hostname + ':35729/livereload.js';
-		document.body.appendChild(elScript);
-	}
-})(window, document);
+// LiveReload
+if (location.search === '?live') {
+	let elScript = document.createElement('script');
+	elScript.src = '//' + location.hostname + ':35729/livereload.js';
+	document.body.appendChild(elScript);
+}
