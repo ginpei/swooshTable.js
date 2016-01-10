@@ -1,4 +1,5 @@
 babel = require 'gulp-babel'
+del = require 'del'
 g = require 'gulp'
 jade = require 'gulp-jade'
 livereload = require 'gulp-livereload'
