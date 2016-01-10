@@ -13,10 +13,10 @@ path =
 		js: 'src/**/*.js'
 		lib: 'lib/**/*'
 	dest:
-		css: '.'
-		html: '.'
-		js: '.'
-		lib: '.'
+		css: 'public'
+		html: 'public'
+		js: 'public'
+		lib: 'public'
 
 g.task 'clean', ->
 	del 'public'
@@ -56,7 +56,7 @@ g.task 'watch', ['webserver'], ->
 	g.watch path.src.js, ['js']
 
 g.task 'webserver', ['build'], ->
-	g.src '.'
+	g.src 'public'
 		.pipe webserver
 			host: '0.0.0.0'
 			port: 3000
