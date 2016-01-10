@@ -32,7 +32,7 @@
 	 * The constructor for Model.
 	 * @overwrite Osteoporosis.Model#__osteoporosis__
 	 */
-	var Model_beforeInitialize = Osteoporosis.Model.prototype.__osteoporosis__;
+	let Model_beforeInitialize = Osteoporosis.Model.prototype.__osteoporosis__;
 	Osteoporosis.Model.prototype.__osteoporosis__ = function(attr) {
 		Model_beforeInitialize.apply(this, arguments);
 		this._initializeAttributes(attr);
@@ -45,9 +45,9 @@
 	 * @see #defaults
 	 */
 	Osteoporosis.Model.prototype._initializeAttributes = function(spec) {
-		var attr = this.attributes;
-		var def = this.defaults;
-		for (var p in def) {
+		let attr = this.attributes;
+		let def = this.defaults;
+		for (let p in def) {
 			if (!spec || !(p in spec)) {
 				attr[p] = def[p];
 			}
@@ -111,7 +111,7 @@
 	 *
 	 * @constructor
 	 */
-	var Status = Osteoporosis.Model.extend({
+	let Status = Osteoporosis.Model.extend({
 		THRESHOLD_X: 30,
 		THRESHOLD_Y: 30,
 
@@ -161,8 +161,8 @@
 		 * @see #THRESHOLD_X
 		 */
 		isOverThresholdX: function() {
-			var attr = this.attributes;
-			var delta = attr.curX - attr.fromX;
+			let attr = this.attributes;
+			let delta = attr.curX - attr.fromX;
 			return (delta > this.THRESHOLD_X || delta < -this.THRESHOLD_X);
 		},
 
@@ -171,8 +171,8 @@
 		 * @see #THRESHOLD_Y
 		 */
 		isOverThresholdY: function() {
-			var attr = this.attributes;
-			var delta = attr.curY - attr.fromY;
+			let attr = this.attributes;
+			let delta = attr.curY - attr.fromY;
 			return (delta > this.THRESHOLD_Y || delta < -this.THRESHOLD_Y);
 		}
 	});
@@ -184,7 +184,7 @@
 	 * UI for swiping.
 	 * @constructor
 	 */
-	var UISwipe = Osteoporosis.View.extend({
+	let UISwipe = Osteoporosis.View.extend({
 		initialize: function(options) {
 			this.create$rowTools = options.create$rowTools;
 
@@ -192,13 +192,13 @@
 			this.status = new Status();
 
 			// listen models
-			var status = this.status;
+			let status = this.status;
 			this.listenTo(status, 'change:phase', this.status_onchange_phase);
 			this.listenTo(status, 'change:curX', this.status_onchange_curX);
 			this.listenTo(status, 'change:deltaX', this.status_onchange_deltaX);
 
 			// listen elements
-			var $document = $(document);
+			let $document = $(document);
 			this.listenTo(this.$el, 'mousedown', this.el_onmousedown);
 			this.listenTo($document, 'mousedown', this.document_onmousedown);
 			this.listenTo($document, 'mousemove', this.document_onmousemove);
@@ -227,19 +227,19 @@
 		 * Set up tool buttons.
 		 */
 		_setupTools: function() {
-			var $row = this.$el;
-			var $tools = this.$rowTools;
+			let $row = this.$el;
+			let $tools = this.$rowTools;
 
 			if (!$tools) {
 				this._initRowTools();
-				var $tools = this.$rowTools;
+				$tools = this.$rowTools;
 			}
 
 			$tools.css({ display:'block' });
 
-			var pos = $row.offset();
-			var height = $row.outerHeight();
-			var width = $row.outerWidth();
+			let pos = $row.offset();
+			let height = $row.outerHeight();
+			let width = $row.outerWidth();
 			$tools.css({
 				height: height,
 				lineHeight: height+'px',
@@ -257,7 +257,7 @@
 		 * Run only first time.
 		 */
 		_initRowTools: function() {
-			var $tools = this.create$rowTools();
+			let $tools = this.create$rowTools();
 			this.$rowTools = $tools;
 			this.elRowTools = $tools[0];
 
@@ -298,8 +298,8 @@
 		 * Update element styles by phases.
 		 */
 		_updatePhase: function() {
-			var status = this.status;
-			var $el = this.$el;
+			let status = this.status;
+			let $el = this.$el;
 
 			$el.toggleClass('ui-swooshTable-row--swiping', status.isSwiping());
 		},
@@ -308,11 +308,11 @@
 		 * Update element position by the origin and current positions.
 		 */
 		_updateLeft: function() {
-			var status = this.status;
-			var minLeft = status.get('minLeft');
-			var maxLeft = status.get('maxLeft');
-			var dx = status.get('deltaX');
-			var left = Math.min(Math.max(dx, minLeft), maxLeft);
+			let status = this.status;
+			let minLeft = status.get('minLeft');
+			let maxLeft = status.get('maxLeft');
+			let dx = status.get('deltaX');
+			let left = Math.min(Math.max(dx, minLeft), maxLeft);
 			this.$el.css({ transform:'translateX(' + left + 'px)' });
 		},
 
@@ -324,7 +324,7 @@
 		getPositionsFromEvent: function(event) {
 			event = event.originalEvent || event;
 
-			var positions;
+			let positions;
 			if (event.touches) {
 				positions = {
 					x: event.touches[0].pageX,
@@ -363,9 +363,9 @@
 		 * @returns {Boolean}
 		 */
 		isEventOccuredOnRowTools: function(event) {
-			var elRowTools = this.elRowTools;
-			var onTools = false;
-			for (var el=event.target; el; el=el.parentElement) {
+			let elRowTools = this.elRowTools;
+			let onTools = false;
+			for (let el=event.target; el; el=el.parentElement) {
 				if (el === elRowTools) {
 					onTools = true;
 					break;
@@ -375,7 +375,7 @@
 		},
 
 		status_onchange_phase: function(status, phase) {
-			var attr = status.attributes;
+			let attr = status.attributes;
 
 			if (phase === status.PHASE_WAITING) {
 				status.set({
@@ -411,8 +411,8 @@
 				}
 			}
 			else if (status.isSwiping()) {
-				var attr = status.attributes;
-				var dx = attr.curX - attr.fromX;
+				let attr = status.attributes;
+				let dx = attr.curX - attr.fromX;
 				status.set({ deltaX:dx });
 			}
 		},
@@ -429,8 +429,8 @@
 
 		el_onmousedown: function(event) {
 			event.preventDefault();
-			var positions = this.getPositionsFromEvent(event);
-			var status = this.status;
+			let positions = this.getPositionsFromEvent(event);
+			let status = this.status;
 
 			status.set({
 				fromX: positions.x,
@@ -440,7 +440,7 @@
 		},
 
 		document_onmousedown: function(event) {
-			var status = this.status;
+			let status = this.status;
 
 			if (!this.isEventOccuredOnRowTools(event) && status.isSwipedOver()) {
 				status.set({ phase:status.PHASE_WAITING });
@@ -448,8 +448,8 @@
 		},
 
 		document_onmousemove: function(event) {
-			var status = this.status;
-			var positions;
+			let status = this.status;
+			let positions;
 
 			if (status.isPreaction() || status.isSwiping()) {
 				positions = this.getPositionsFromEvent(event);
@@ -461,7 +461,7 @@
 		},
 
 		document_onmouseup: function(event) {
-			var status = this.status;
+			let status = this.status;
 
 			if (status.get('deltaX') < status.get('minLeft')) {
 				status.set({ phase:status.PHASE_SWIPEDOVER });
@@ -473,8 +473,8 @@
 		},
 
 		el_ontouchstart: function(event) {
-			var positions = this.getPositionsFromEvent(event);
-			var status = this.status;
+			let positions = this.getPositionsFromEvent(event);
+			let status = this.status;
 
 			status.set({
 				fromX: positions.x,
@@ -484,15 +484,15 @@
 		},
 
 		document_ontouchstart: function(event) {
-			var status = this.status;
+			let status = this.status;
 			if (status.isSwipedOver()) {
 				status.set({ phase:status.PHASE_WAITING });
 			}
 		},
 
 		document_ontouchmove: function(event) {
-			var status = this.status;
-			var position;
+			let status = this.status;
+			let position;
 
 			if (status.isPreaction() || status.isSwiping()) {
 				positions = this.getPositionsFromEvent(event);
@@ -508,7 +508,7 @@
 		},
 
 		document_ontouchend: function(event) {
-			var status = this.status;
+			let status = this.status;
 
 			if (status.get('deltaX') < status.get('minLeft')) {
 				status.set({ phase:status.PHASE_SWIPEDOVER });
@@ -520,7 +520,7 @@
 		},
 
 		rowTools_onclick: function(event) {
-			var elButton = event.target.closest('.ui-swooshTable-toolButon');
+			let elButton = event.target.closest('.ui-swooshTable-toolButon');
 			this.trigger('click', this, event, elButton);
 		}
 	});
@@ -528,7 +528,7 @@
 	// ----------------------------------------------------------------
 	// SwooshTable
 
-	var SwooshTable = Osteoporosis.View.extend({
+	let SwooshTable = Osteoporosis.View.extend({
 		/**
 		 * @type Array
 		 */
@@ -536,7 +536,7 @@
 
 		initialize: function(options) {
 			if (typeof options === 'string') {
-				var selector = options;
+				let selector = options;
 				options = {};
 				this.$el = $(selector);
 				this.el = this.$el[0];
@@ -553,12 +553,12 @@
 		},
 
 		_initSubViews: function() {
-			var views = this.subViews = [];
-			var $rows = this.$('>tr, >tbody>tr');
-			var $rowTools = this.$rowTools;
-			var create$rowTools = this._create$rowTools.bind(this);
+			let views = this.subViews = [];
+			let $rows = this.$('>tr, >tbody>tr');
+			let $rowTools = this.$rowTools;
+			let create$rowTools = this._create$rowTools.bind(this);
 			$rows.each(function(index, elRow) {
-				var view = new UISwipe({
+				let view = new UISwipe({
 					el: elRow,
 					create$rowTools: create$rowTools,
 				});
@@ -572,20 +572,20 @@
 		 * @returns {Element}
 		 */
 		_create$rowTools: function() {
-			var $rowTools = $(this._template$rowTools({}));
+			let $rowTools = $(this._template$rowTools({}));
 			$rowTools.appendTo(document.body);
 			return $rowTools;
 		},
 
 		_template$rowTools: function(data) {
-			var html =
+			let html =
 				'<div class="ui-swooshTable-rowTools">' +
 					'<button class="ui-swooshTable-toolButon rowTools-item rowTools-item-delete">Delete</button>' +
 					'<button class="ui-swooshTable-toolButon rowTools-item rowTools-item-move">Move</button>' +
 				'</div>';
-			var elFactory = document.createElement('div');
+			let elFactory = document.createElement('div');
 			elFactory.insertAdjacentHTML('afterbegin', html);
-			var el = elFactory.firstChild;
+			let el = elFactory.firstChild;
 			return el;
 		},
 
@@ -595,7 +595,7 @@
 		 */
 		removeRow: function(row) {
 			if (!(row instanceof UISwipe)) {
-				var elRow = row;
+				let elRow = row;
 				row = findFromArray(this.subViews, function(view) {
 					return (view.$el[0] === elRow);
 				});
