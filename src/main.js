@@ -1,15 +1,18 @@
 (function(window, document) {
-	// Example
-	let swooshTable = new SwooshTable('.js-table');
+	// ----------------------------------------------------------------
+	// Basic Example
+	let swooshTable = new SwooshTable('.js-basicExample');
 	swooshTable.on('click', function(event, row, elButton) {
-		if (elButton.classList.contains('rowTools-item-delete')) {
-			row.restore();
-			row.$el.slideUp(function() {
-				swooshTable.removeRow(row);
-			});
-		}
+		// Restore the row to original position
+		row.restore();
+
+		// Remove the row
+		row.$el.slideUp(function() {
+			swooshTable.removeRow(row);
+		});
 	});
 
+	// ----------------------------------------------------------------
 	// LiveReload
 	if (location.search === '?live') {
 		var elScript = document.createElement('script');

@@ -581,7 +581,6 @@
 			let html =
 				'<div class="ui-swooshTable-rowTools">' +
 					'<button class="ui-swooshTable-toolButon rowTools-item rowTools-item-delete">Delete</button>' +
-					'<button class="ui-swooshTable-toolButon rowTools-item rowTools-item-move">Move</button>' +
 				'</div>';
 			let elFactory = document.createElement('div');
 			elFactory.insertAdjacentHTML('afterbegin', html);
