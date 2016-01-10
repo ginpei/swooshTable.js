@@ -27,12 +27,6 @@ html(lang='en')
 					td.ui-swooshTable-cell.ui-swooshTable-cell-title Fox 5
 					td.ui-swooshTable-cell.ui-swooshTable-cell-subtitle The quick brown fox jumps over the lazy dog
 
-		script.
-			if (location.search === '?live') {
-				var elScript = document.createElement('script');
-				elScript.src = '//' + location.hostname + ':35729/livereload.js';
-				document.body.appendChild(elScript);
-			}
 		script(src="jquery.min.js")
 		script(src="ui-swipe.js")
 		script(src="main.js")
