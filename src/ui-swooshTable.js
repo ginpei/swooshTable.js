@@ -185,8 +185,21 @@
 	 * @constructor
 	 */
 	let UISwipe = Osteoporosis.View.extend({
+		defaults: {
+			create$rowTools: function(data) {
+				let html =
+					'<div class="ui-swooshTable-rowTools">' +
+						'<button class="ui-swooshTable-toolButon rowTools-item rowTools-item-delete">Delete</button>' +
+					'</div>';
+				let elFactory = document.createElement('div');
+				elFactory.insertAdjacentHTML('afterbegin', html);
+				let el = elFactory.firstChild;
+				return el;
+			},
+		},
+
 		initialize: function(options) {
-			this.create$rowTools = options.create$rowTools;
+			this.create$rowTools = options.create$rowTools || this.defaults.create$rowTools;
 
 			// prepare models
 			this.status = new Status();
@@ -257,7 +270,9 @@
 		 * Run only first time.
 		 */
 		_initRowTools: function() {
-			let $tools = this.create$rowTools();
+			let $tools = $(this.create$rowTools());
+			$tools.appendTo(document.body);
+
 			this.$rowTools = $tools;
 			this.elRowTools = $tools[0];
 
@@ -521,7 +536,7 @@
 
 		rowTools_onclick: function(event) {
 			let elButton = event.target.closest('.ui-swooshTable-toolButon');
-			this.trigger('click', this, event, elButton);
+			this.trigger('clickbutton', this, event, elButton);
 		}
 	});
 
