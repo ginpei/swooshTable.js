@@ -11,7 +11,7 @@
  *   - `row.restore()`
  *   - `row.destroy()`
  */
-(function() {
+(function($) {
 	var $list = $('.js-basicExample > tbody');
 	var $rows = $list.children();
 	var rowCount = $rows.length;
@@ -61,4 +61,4 @@
 
 		return html;
 	}
-})();
+})(window.jQuery);
