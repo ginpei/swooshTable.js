@@ -186,20 +186,13 @@
 	 */
 	let UISwipe = Osteoporosis.View.extend({
 		defaults: {
-			create$rowTools: function(data) {
-				let html =
-					'<div class="ui-swooshTable-rowTools">' +
-						'<button class="ui-swooshTable-toolButon rowTools-item rowTools-item-delete">Delete</button>' +
-					'</div>';
-				let elFactory = document.createElement('div');
-				elFactory.insertAdjacentHTML('afterbegin', html);
-				let el = elFactory.firstChild;
-				return el;
-			},
+			buttons: [ { key:'delete', label:'Delete' } ]
 		},
 
 		initialize: function(options) {
-			this.create$rowTools = options.create$rowTools || this.defaults.create$rowTools;
+			this.options = {
+				buttons: options.buttons || this.defaults.buttons
+			};
 
 			// prepare models
 			this.status = new Status();
@@ -270,13 +263,31 @@
 		 * Run only first time.
 		 */
 		_initRowTools: function() {
-			let $tools = $(this.create$rowTools());
+			let $tools = $(this._create$rowTools());
 			$tools.appendTo(document.body);
 
 			this.$rowTools = $tools;
 			this.elRowTools = $tools[0];
 
 			this.listenTo($tools, 'click', this.rowTools_onclick);
+		},
+
+		/**
+		 * Create elements of tool button along the options
+		 * which are specified in the constructor.
+		 * @return {Element}
+		 */
+		_create$rowTools: function() {
+			let html = '<div class="ui-swooshTable-rowTools">';
+			this.options.buttons.reverse().forEach((data)=>{
+				html += `<button class="ui-swooshTable-toolButon rowTools-item" data-swooshTable-key="${data.key}">${data.label}</button>`;
+			});
+			html += '</div>';
+
+			let elFactory = document.createElement('div');
+			elFactory.insertAdjacentHTML('afterbegin', html);
+			let el = elFactory.firstChild;
+			return el;
 		},
 
 		/**
@@ -536,7 +547,12 @@
 
 		rowTools_onclick: function(event) {
 			let elButton = event.target.closest('.ui-swooshTable-toolButon');
-			this.trigger('clickbutton', this, event, elButton);
+			let data = {
+				event,
+				elButton,
+				key: elButton.getAttribute('data-swooshTable-key')
+			};
+			this.trigger('clickbutton', this, data);
 		}
 	});
 
