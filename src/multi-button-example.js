@@ -39,7 +39,7 @@
 		}
 		else if (key === 'poke') {
 			var name = row.$el.find('td:first').text();
-			alert('Hi! I am ' + name +'. How are you?');
+			alert('Hi! I am ' + name + '. How are you?');
 		}
 
 		row.restore();
