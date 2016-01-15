@@ -30,13 +30,17 @@ g.task 'css', ->
 		.pipe g.dest(path.dest.css)
 		.pipe livereload()
 
-g.task 'html', ->
+g.task 'html', ['build_html'], ->
+	g.src ''
+		.pipe livereload()
+
+# divide to assure loaded HTML that it's updated
+g.task 'build_html', ->
 	g.src path.src.html
 		.pipe sourcemaps.init()
 		.pipe jade(client:false)
 		.pipe sourcemaps.write()
 		.pipe g.dest(path.dest.html)
-		.pipe livereload()
 
 g.task 'js', ->
 	g.src path.src.js
