@@ -279,7 +279,7 @@
 		 */
 		_create$rowTools: function() {
 			let html = '<div class="ui-swooshTable-rowTools">';
-			this.options.buttons.reverse().forEach((data)=>{
+			this.options.buttons.concat().reverse().forEach((data)=>{
 				html += `<button class="ui-swooshTable-toolButon rowTools-item" data-swooshTable-key="${data.key}">${data.label}</button>`;
 			});
 			html += '</div>';

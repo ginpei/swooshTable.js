@@ -17,6 +17,11 @@
 	});
 
 	var ItemView = Backbone.View.extend({
+		_rowButtons: [
+			{ key:'edit', label:'Edit' },
+			{ key:'delete', label:'Delete' }
+		],
+
 		initialize: function(options) {
 			this.listenTo(this.model, 'change:title', this.model_onchange_title);
 		},
@@ -31,7 +36,7 @@
 		setElement: function() {
 			var rv = this.constructor.__super__.setElement.apply(this, arguments);
 
-			var row = new UISwipe({ el:this.el });
+			var row = new UISwipe({ el:this.el, buttons:this._rowButtons });
 			row.on('clickbutton', this.row_onclick.bind(this));
 			this.swooshRow = row;
 
@@ -42,7 +47,29 @@
 			this.$title.text(this.model.get('title'));
 		},
 
-		deleteRow: function() {
+		restoreRowPosition: function() {
+			this.swooshRow.restore();
+		},
+
+		edit: function() {
+			var title = this.model.get('title');
+			var newTitle = window.prompt('Input new title.', title);
+			if (newTitle) {
+				this.model.set('title', newTitle);
+			}
+			this.restoreRowPosition();
+		},
+
+		delete: function() {
+			if (window.confirm('Are you sure to DELETE?')) {
+				this._deleteRow();
+			}
+			else {
+				this.restoreRowPosition();
+			}
+		},
+
+		_deleteRow: function() {
 			var row = this.swooshRow;
 			row.restore();
 			row.$el.slideUp(function(){
@@ -56,7 +83,13 @@
 		},
 
 		row_onclick: function(event, data) {
-			this.deleteRow();
+			var key = data.key;
+			if (key === 'edit') {
+				this.edit();
+			}
+			else if (key === 'delete') {
+				this.delete();
+			}
 		}
 	});
 
