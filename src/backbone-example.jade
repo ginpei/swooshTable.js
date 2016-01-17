@@ -1,0 +1,19 @@
+h2
+	| Example with 
+	a(href="http://backbonejs.org/") Backbone.js
+
+table.ui-swooshTable.js-backboneExample
+	tbody.js-list
+
+script#json-items(type=text/x-json).
+	[
+		{ "title":"Fox 1", "subtitle":"The quick brown fox jumps over the lazy dog" },
+		{ "title":"Fox 2", "subtitle":"The quick brown fox jumps over the lazy dog" },
+		{ "title":"Fox 3", "subtitle":"The quick brown fox jumps over the lazy dog" }
+	]
+script#template-row(type=text/x-template).
+	<tr class="ui-swooshTable-row">
+		<td class="ui-swooshTable-cell ui-swooshTable-cell-title"><%- title %></td>
+		<td class="ui-swooshTable-cell ui-swooshTable-cell-subtitle"><%- subtitle %></td>
+	</tr>
+script(src="backbone-example.js")
