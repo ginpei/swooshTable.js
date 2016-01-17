@@ -3,6 +3,7 @@ del = require 'del'
 g = require 'gulp'
 jade = require 'gulp-jade'
 livereload = require 'gulp-livereload'
+plumber = require 'gulp-plumber'
 sass = require 'gulp-sass'
 sourcemaps = require 'gulp-sourcemaps'
 webserver = require 'gulp-webserver'
@@ -24,6 +25,7 @@ g.task 'clean', ->
 
 g.task 'css', ->
 	g.src path.src.css
+		.pipe plumber()
 		.pipe sourcemaps.init()
 		.pipe sass( style:'minify' )
 		.pipe sourcemaps.write()
@@ -37,6 +39,7 @@ g.task 'html', ['build_html'], ->
 # divide to assure loaded HTML that it's updated
 g.task 'build_html', ->
 	g.src path.src.html
+		.pipe plumber()
 		.pipe sourcemaps.init()
 		.pipe jade(client:false)
 		.pipe sourcemaps.write()
@@ -44,6 +47,7 @@ g.task 'build_html', ->
 
 g.task 'js', ->
 	g.src path.src.js
+		.pipe plumber()
 		.pipe sourcemaps.init()
 		.pipe babel(presets:'es2015')
 		.pipe sourcemaps.write()
