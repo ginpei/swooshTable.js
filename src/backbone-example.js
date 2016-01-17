@@ -18,7 +18,7 @@
 
 	var ItemView = Backbone.View.extend({
 		initialize: function(options) {
-			this.listenTo(this.model, 'change:title', this.updateTitle);
+			this.listenTo(this.model, 'change:title', this.model_onchange_title);
 		},
 
 		render: function() {
@@ -49,6 +49,10 @@
 				row.destroy();
 				this.remove();
 			}.bind(this));
+		},
+
+		model_onchange_title: function(model, title, options) {
+			this.updateTitle();
 		},
 
 		row_onclick: function(event, data) {
