@@ -546,7 +546,7 @@
 		},
 
 		rowTools_onclick: function(event) {
-			let elButton = event.target.closest('.ui-swooshTable-toolButon');
+			let elButton = getClosest(event.target, '.ui-swooshTable-toolButon');
 			let data = {
 				event,
 				elButton,
