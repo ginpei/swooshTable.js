@@ -376,10 +376,15 @@
 		/**
 		 * Detach resources.
 		 */
-		destroy: function() {
+		destroy: function(options) {
 			// Maybe not enough...
 
-			this.$el.remove();
+			options = options || {};
+			options.removeDom = (options.removeDom !== false);
+
+			if (options.removeDom) {
+				this.$el.remove();
+			}
 
 			if (this.$rowTools) {
 				this.$rowTools.remove();
