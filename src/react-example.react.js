@@ -1,5 +1,23 @@
 // React + ES6
 // (I guess you can make these better than me!)
+
+// # TL;TR
+//
+// - Create instance at `component.componentDidMount()`.
+// - Destroy instance at `component.componentWillUnmount()`.
+//
+// ```
+// componentDidMount() {
+// 	var swoosh = new UISwipe({ el:this.refs.el, buttons:this._rowButtons });
+// 	swoosh.on('clickbutton', this.onClick.bind(this));
+// 	this.swoosh = swoosh;
+// }
+//
+// componentWillUnmount() {
+// 	this.swoosh.destroy({ removeDom:false });
+// }
+// ```
+
 (function(React, ReactDOM) {
 	let itemDataList;
 	let idCount;
