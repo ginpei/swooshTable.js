@@ -95,14 +95,23 @@
 
 	// ----------------------------------------------------------------
 
-	var items = new ItemCollection();
+	var rowCount = data.length;
 	var itemViews = {};
+	var items = new ItemCollection();
+
 	items.on('add', function(item, options) {
 		var view = new ItemView({ model:item });
 		view.render();
 		itemViews[item.cid] = view;
 		$list.append(view.$el);
 		return view;
+	});
+
+	$('.js-basicExample-add').on('click', function(event){
+		items.add({
+			title: 'Fox ' + ++rowCount,
+			subtitle: 'The quick brown fox jumps over the lazy dog'
+		});
 	});
 
 	items.set(data);
