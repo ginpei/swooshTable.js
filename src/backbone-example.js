@@ -95,11 +95,16 @@
 
 	// ----------------------------------------------------------------
 
-	var items = new ItemCollection(data);
-	var itemViews = items.map(function(item) {
+	var items = new ItemCollection();
+	var itemViews = {};
+	items.on('add', function(item, options) {
 		var view = new ItemView({ model:item });
 		view.render();
+		itemViews[item.cid] = view;
 		$list.append(view.$el);
 		return view;
 	});
+
+	items.set(data);
+
 })(window.$, window._, window.Backbone);
