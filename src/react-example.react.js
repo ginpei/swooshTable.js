@@ -2,7 +2,7 @@
 // (I guess you can make these better than me!)
 (function(React, ReactDOM) {
 	let itemDataList;
-	let rowCount;
+	let idCount;
 	let itemList;
 
 	// ----------------------------------------------------------------
@@ -27,11 +27,11 @@
 		 * Render elements, including child rows.
 		 */
 		render() {
-			let onChangeItemTitle = this.onChangeItemTitle.bind(this);
-			let onDeleteItem = this.onDeleteItem.bind(this);
+			let onChangeItemTitle = this.props.onChangeItemTitle;
+			let onDeleteItem = this.props.onDeleteItem;
 
 			// build child rows
-			let rows = this.state.items.map(function(item, index) {
+			let rows = this.state.items.map(function(item) {
 				return <Item key={item.id} id={item.id} title={item.title} subtitle={item.subtitle}
 					onChangeTitle={onChangeItemTitle}
 					onDelete={onDeleteItem}
@@ -39,35 +39,6 @@
 			});
 
 			return <tbody>{rows}</tbody>;
-		}
-
-		/**
-		 * Called when the title is changed at <Item>.
-		 * @param {Object} data
-		 * @param {number} data.index Where the data is aligned on the array.
-		 * @param {string} data.title
-		 */
-		onChangeItemTitle(data) {
-			// update the item's data
-			itemDataList[data.index].title = data.title;
-
-			// update this component's state
-			this.setState({ items:itemDataList });
-		}
-
-		/**
-		 * Called when an user decided to delete an <Item>.
-		 * @param {Object} data
-		 * @param {number} data.index Where the data is aligned on the array.
-		 */
-		onDeleteItem(data) {
-			// remove the item from the array
-			let afters = itemDataList.splice(data.index);
-			let l2 = itemDataList.concat(afters.slice(1));
-			itemDataList = l2;
-
-			// update this component's state
-			this.setState({ items:itemDataList });
 		}
 	}
 
@@ -107,25 +78,25 @@
 
 		/**
 		 * Edit row's title.
-		 * @param {number} index Where the data is aligned on the array.
+		 * @param {number} id
 		 */
-		edit(index) {
+		edit(id) {
 			let title = this.props.title;
 			let newTitle = window.prompt('Input new title.', title);
 			if (newTitle) {
-				this.props.onChangeTitle({ index:index, title:newTitle });
+				this.props.onChangeTitle({ id:id, title:newTitle });
 			}
 			this.restoreRowPosition();
 		}
 
 		/**
 		 * Delete the row.
-		 * @param {number} index Where the data is aligned on the array.
+		 * @param {number} id
 		 * @see #doDelete
 		 */
-		delete(index) {
+		delete(id) {
 			if (window.confirm('Are you sure to DELETE?')) {
-				this.doDelete(index);
+				this.doDelete({ id:id });
 			}
 			else {
 				this.restoreRowPosition();
@@ -134,14 +105,14 @@
 
 		/**
 		 * Do delete.
-		 * @param {number} index Where the data is aligned on the array.
+		 * @param {Object} data
 		 * @see #delete
 		 */
-		doDelete(index) {
+		doDelete(data) {
 			let swoosh = this.swoosh;
 			this.restoreRowPosition();
 			swoosh.$el.slideUp(function(){
-				this.props.onDelete({ index:index });
+				this.props.onDelete(data);
 			}.bind(this));
 		}
 
@@ -166,17 +137,15 @@
 		 * @see #componentDidMount
 		 */
 		onClick(event, data) {
-			// find where the data is aligned on the array.
 			let id = this.props.id;
-			let index = itemDataList.indexOf(itemDataList.find((item)=>item.id===id));
 
 			// do something according to which button the user clicked
 			let key = data.key;
 			if (key === 'delete') {
-				this.delete(index);
+				this.delete(id);
 			}
 			else if (key === 'edit') {
-				this.edit(index);
+				this.edit(id);
 			}
 		}
 	}
@@ -188,20 +157,8 @@
 	class Form extends React.Component {
 		render() {
 			return (
-				<button onClick={this.onClick.bind(this)}>Add A Row</button>
+				<button onClick={this.props.onClick}>Add A Row</button>
 			);
-		}
-
-		onClick() {
-			// add a new data to the array
-			itemDataList.push({
-				id: Math.random(),
-				title: 'Fox ' + ++rowCount,
-				subtitle: 'The quick brown fox jumps over the lazy dog'
-			});
-
-			// update the component's state
-			itemList.setState({ data:itemDataList });
 		}
 	}
 
@@ -209,25 +166,71 @@
 	// Let's rock!
 
 	function start() {
-		// get data, which defined in HTML
+		// get data, which is defined in HTML
 		itemDataList = JSON.parse(document.querySelector('#json-items').text);
-		rowCount = itemDataList.length;
+		idCount = itemDataList.length;
 
 		// create IDs for each item data
 		itemDataList.forEach((item)=>item.id=Math.random());
 
 		// the list component
 		itemList = ReactDOM.render(
-			<ItemList />,
+			<ItemList onChangeItemTitle={onChangeItemTitle} onDeleteItem={onDeleteItem} />,
 			document.querySelector('.js-table')
 		);
 		itemList.setState({ items:itemDataList });
 
 		// form component to add an item
 		ReactDOM.render(
-			<Form />,
+			<Form onClick={onClickAdd} />,
 			document.querySelector('.js-form')
 		);
+	}
+
+	/**
+	 * Called when the title is changed at <Item>.
+	 * @param {Object} data
+	 * @param {number} data.id
+	 * @param {string} data.title
+	 */
+	function onChangeItemTitle(data) {
+		// update the item's data
+		let item = itemDataList.find((o)=>o.id===data.id);
+		item.title = data.title;
+
+		// update this component's state
+		itemList.setState({ items:itemDataList });
+	}
+
+	/**
+	 * Called when an user decided to delete an <Item>.
+	 * @param {Object} data
+	 * @param {number} data.id
+	 */
+	function onDeleteItem(data) {
+		// remove the item from the array
+		let index = itemDataList.indexOf(itemDataList.find((o)=>o.id===data.id));
+		let afters = itemDataList.splice(index);
+		itemDataList = itemDataList.concat(afters.slice(1));
+
+		// update this component's state
+		itemList.setState({ items:itemDataList });
+	}
+
+	/**
+	 * Called when the user clicked "Add A Row".
+	 * @param {Event} event
+	 */
+	function onClickAdd(event) {
+		// add a new data to the array
+		itemDataList.push({
+			id: Math.random(),
+			title: 'Fox ' + ++idCount,
+			subtitle: 'The quick brown fox jumps over the lazy dog'
+		});
+
+		// update the component's state
+		itemList.setState({ data:itemDataList });
 	}
 
 	start();
