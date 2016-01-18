@@ -59,11 +59,8 @@
 			);
 		}
 
-		delete(index) {
-			let swoosh = this.swoosh;
-			swoosh.$el.slideUp(function(){
-				this.props.onDelete({ index:index });
-			}.bind(this));
+		restoreRowPosition() {
+			this.swoosh.restore();
 		}
 
 		edit(index) {
@@ -72,6 +69,24 @@
 			if (newTitle) {
 				this.props.onChangeTitle({ index:index, title:newTitle });
 			}
+			this.restoreRowPosition();
+		}
+
+		delete(index) {
+			if (window.confirm('Are you sure to DELETE?')) {
+				this.doDelete(index);
+			}
+			else {
+				this.restoreRowPosition();
+			}
+		}
+
+		doDelete(index) {
+			let swoosh = this.swoosh;
+			this.restoreRowPosition();
+			swoosh.$el.slideUp(function(){
+				this.props.onDelete({ index:index });
+			}.bind(this));
 		}
 
 		componentDidMount() {
@@ -95,8 +110,6 @@
 			else if (key === 'edit') {
 				this.edit(index);
 			}
-
-			this.swoosh.restore();
 		}
 	}
 

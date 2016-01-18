@@ -36,9 +36,9 @@
 		setElement: function() {
 			var rv = this.constructor.__super__.setElement.apply(this, arguments);
 
-			var row = new UISwipe({ el:this.el, buttons:this._rowButtons });
-			row.on('clickbutton', this.row_onclick.bind(this));
-			this.swooshRow = row;
+			var swoosh = new UISwipe({ el:this.el, buttons:this._rowButtons });
+			swoosh.on('clickbutton', this.row_onclick.bind(this));
+			this.swoosh = swoosh;
 
 			return rv;
 		},
@@ -48,7 +48,7 @@
 		},
 
 		restoreRowPosition: function() {
-			this.swooshRow.restore();
+			this.swoosh.restore();
 		},
 
 		edit: function() {
@@ -70,10 +70,10 @@
 		},
 
 		doDelete: function() {
-			var row = this.swooshRow;
-			row.restore();
-			row.$el.slideUp(function(){
-				row.destroy();
+			var swoosh = this.swoosh;
+			this.restoreRowPosition();
+			swoosh.$el.slideUp(function(){
+				swoosh.destroy();
 				this.remove();
 			}.bind(this));
 		},
