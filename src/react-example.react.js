@@ -49,7 +49,7 @@
 			let onDeleteItem = this.props.onDeleteItem;
 
 			// build child rows
-			let rows = this.state.items.map(function(item) {
+			let rows = this.state.items.map((item)=>{
 				return <Item key={item.id} id={item.id} title={item.title} subtitle={item.subtitle}
 					onChangeTitle={onChangeItemTitle}
 					onDelete={onDeleteItem}
@@ -129,9 +129,9 @@
 		doDelete(data) {
 			let swoosh = this.swoosh;
 			this.restoreRowPosition();
-			swoosh.$el.slideUp(function(){
+			swoosh.$el.slideUp(()=>{
 				this.props.onDelete(data);
-			}.bind(this));
+			});
 		}
 
 		/**
