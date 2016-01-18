@@ -62,14 +62,14 @@
 
 		delete: function() {
 			if (window.confirm('Are you sure to DELETE?')) {
-				this._deleteRow();
+				this.trigger('click_remove', this, this.model);
 			}
 			else {
 				this.restoreRowPosition();
 			}
 		},
 
-		_deleteRow: function() {
+		doDelete: function() {
 			var row = this.swooshRow;
 			row.restore();
 			row.$el.slideUp(function(){
@@ -104,7 +104,16 @@
 		view.render();
 		itemViews[item.cid] = view;
 		$list.append(view.$el);
+
+		view.on('click_remove', function(view, item, options) {
+			this.remove(item);
+		}.bind(this));
+
 		return view;
+	});
+	items.on('remove', function(item, items, options) {
+		var view = itemViews[item.cid];
+		view.doDelete();
 	});
 
 	$('.js-basicExample-add').on('click', function(event){
