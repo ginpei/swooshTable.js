@@ -12,12 +12,14 @@ path =
 	src:
 		css: 'src/**/*.sass'
 		html: 'src/**/*.jade'
-		js: 'src/**/*.js'
+		js: ['!src/**/*.react.js', 'src/**/*.js']
+		js_react: 'src/**/*.react.js'
 		lib: 'lib/**/*'
 	dest:
 		css: 'public'
 		html: 'public'
 		js: 'public'
+		js_react: 'public'
 		lib: 'public'
 
 g.task 'clean', ->
@@ -54,6 +56,16 @@ g.task 'js', ->
 		.pipe g.dest(path.dest.js)
 		.pipe livereload()
 
+g.task 'js_react', ->
+	g.src path.src.js_react
+		.pipe plumber()
+		.pipe sourcemaps.init()
+		.pipe babel(presets:'react')
+		.pipe babel(presets:'es2015')
+		.pipe sourcemaps.write()
+		.pipe g.dest(path.dest.js_react)
+		.pipe livereload()
+
 g.task 'lib', ->
 	g.src path.src.lib
 		.pipe g.dest(path.dest.lib)
@@ -63,6 +75,7 @@ g.task 'watch', ['webserver'], ->
 	g.watch path.src.css, ['css']
 	g.watch path.src.html, ['html']
 	g.watch path.src.js, ['js']
+	g.watch path.src.js_react, ['js_react']
 
 g.task 'webserver', ['build'], ->
 	g.src 'public'
@@ -74,6 +87,7 @@ g.task 'build', [
 	'css'
 	'html'
 	'js'
+	'js_react'
 	'lib'
 ]
 
