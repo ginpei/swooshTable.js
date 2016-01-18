@@ -208,24 +208,27 @@
 	// ----------------------------------------------------------------
 	// Let's rock!
 
-	// get data, which defined in HTML
-	itemDataList = JSON.parse(document.querySelector('#json-items').text);
-	rowCount = itemDataList.length;
+	function start() {
+		// get data, which defined in HTML
+		itemDataList = JSON.parse(document.querySelector('#json-items').text);
+		rowCount = itemDataList.length;
 
-	// create IDs for each item data
-	itemDataList.forEach((item)=>item.id=Math.random());
+		// create IDs for each item data
+		itemDataList.forEach((item)=>item.id=Math.random());
 
-	// the list component
-	itemList = ReactDOM.render(
-		<ItemList />,
-		document.querySelector('.js-table')
-	);
-	itemList.setState({ items:itemDataList });
+		// the list component
+		itemList = ReactDOM.render(
+			<ItemList />,
+			document.querySelector('.js-table')
+		);
+		itemList.setState({ items:itemDataList });
 
-	// form component to add an item
-	ReactDOM.render(
-		<Form />,
-		document.querySelector('.js-form')
-	);
+		// form component to add an item
+		ReactDOM.render(
+			<Form />,
+			document.querySelector('.js-form')
+		);
+	}
 
+	start();
 })(window.React, window.ReactDOM);
