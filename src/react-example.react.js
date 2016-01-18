@@ -181,7 +181,7 @@
 	}
 
 	// ----------------------------------------------------------------
-	// Let's rock!
+	// Controlling functions
 
 	function start() {
 		// get data, which is defined in HTML
@@ -251,5 +251,6 @@
 		itemList.setState({ data:itemDataList });
 	}
 
+	// Let's rock!
 	start();
 })(window.React, window.ReactDOM);
