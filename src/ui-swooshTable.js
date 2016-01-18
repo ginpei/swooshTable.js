@@ -380,7 +380,10 @@
 			// Maybe not enough...
 
 			this.$el.remove();
-			this.$rowTools.remove();
+
+			if (this.$rowTools) {
+				this.$rowTools.remove();
+			}
 		},
 
 		/**
