@@ -519,7 +519,8 @@
 
 		document_ontouchstart: function(event) {
 			let status = this.status;
-			if (status.isSwipedOver()) {
+
+			if (!this.isEventOccuredOnRowTools(event) && status.isSwipedOver()) {
 				status.set({ phase:status.PHASE_WAITING });
 			}
 		},
