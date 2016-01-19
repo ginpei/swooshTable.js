@@ -408,6 +408,59 @@
 			return onTools;
 		},
 
+		handlePointingStartAtRow: function(event) {
+			if (event.type === 'mousedown') {
+				event.preventDefault();
+			}
+
+			let positions = this.getPositionsFromEvent(event);
+			let status = this.status;
+
+			status.set({
+				fromX: positions.x,
+				fromY: positions.y,
+				phase: status.PHASE_PREACTION
+			});
+		},
+
+		handlePointingStart: function(event) {
+			let status = this.status;
+
+			if (!this.isEventOccuredOnRowTools(event) && status.isSwipedOver()) {
+				status.set({ phase:status.PHASE_WAITING });
+			}
+		},
+
+		handlePointerMovement: function(event) {
+			let status = this.status;
+			let positions;
+
+			if (status.isPreaction() || status.isSwiping()) {
+				positions = this.getPositionsFromEvent(event);
+				status.set({
+					curX: positions.x,
+					curY: positions.y
+				});
+
+				// prevent scrolling while swiping
+				if (event.type === 'touchmove' && status.isPreaction() || status.isSwiping()) {
+					event.preventDefault();
+				}
+			}
+		},
+
+		handlePointingStop: function(event) {
+			let status = this.status;
+
+			if (status.get('deltaX') < status.get('minLeft')) {
+				status.set({ phase:status.PHASE_SWIPEDOVER });
+			}
+
+			if (!status.isSwipedOver()) {
+				status.set({ phase:status.PHASE_WAITING });
+			}
+		},
+
 		status_onchange_phase: function(status, phase) {
 			let attr = status.attributes;
 
@@ -462,96 +515,35 @@
 		},
 
 		el_onmousedown: function(event) {
-			event.preventDefault();
-			let positions = this.getPositionsFromEvent(event);
-			let status = this.status;
-
-			status.set({
-				fromX: positions.x,
-				fromY: positions.y,
-				phase: status.PHASE_PREACTION
-			});
+			this.handlePointingStartAtRow(event);
 		},
 
 		document_onmousedown: function(event) {
-			let status = this.status;
-
-			if (!this.isEventOccuredOnRowTools(event) && status.isSwipedOver()) {
-				status.set({ phase:status.PHASE_WAITING });
-			}
+			this.handlePointingStart(event);
 		},
 
 		document_onmousemove: function(event) {
-			let status = this.status;
-			let positions;
-
-			if (status.isPreaction() || status.isSwiping()) {
-				positions = this.getPositionsFromEvent(event);
-				status.set({
-					curX: positions.x,
-					curY: positions.y
-				});
-			}
+			this.handlePointerMovement(event);
 		},
 
 		document_onmouseup: function(event) {
-			let status = this.status;
-
-			if (status.get('deltaX') < status.get('minLeft')) {
-				status.set({ phase:status.PHASE_SWIPEDOVER });
-			}
-
-			if (!status.isSwipedOver()) {
-				status.set({ phase:status.PHASE_WAITING });
-			}
+			this.handlePointingStop(event);
 		},
 
 		el_ontouchstart: function(event) {
-			let positions = this.getPositionsFromEvent(event);
-			let status = this.status;
-
-			status.set({
-				fromX: positions.x,
-				fromY: positions.y,
-				phase: status.PHASE_PREACTION
-			});
+			this.handlePointingStartAtRow(event);
 		},
 
 		document_ontouchstart: function(event) {
-			let status = this.status;
-
-			if (!this.isEventOccuredOnRowTools(event) && status.isSwipedOver()) {
-				status.set({ phase:status.PHASE_WAITING });
-			}
+			this.handlePointingStart(event);
 		},
 
 		document_ontouchmove: function(event) {
-			let status = this.status;
-			let positions;
-
-			if (status.isPreaction() || status.isSwiping()) {
-				positions = this.getPositionsFromEvent(event);
-				status.set({
-					curX: positions.x,
-					curY: positions.y
-				});
-
-				if (status.isPreaction() || status.isSwiping()) {
-					event.preventDefault();
-				}
-			}
+			this.handlePointerMovement(event);
 		},
 
 		document_ontouchend: function(event) {
-			let status = this.status;
-
-			if (status.get('deltaX') < status.get('minLeft')) {
-				status.set({ phase:status.PHASE_SWIPEDOVER });
-			}
-
-			if (!status.isSwipedOver()) {
-				status.set({ phase:status.PHASE_WAITING });
-			}
+			this.handlePointingStop(event);
 		},
 
 		rowTools_onclick: function(event) {
