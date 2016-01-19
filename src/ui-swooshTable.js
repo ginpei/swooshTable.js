@@ -526,7 +526,7 @@
 
 		document_ontouchmove: function(event) {
 			let status = this.status;
-			let position;
+			let positions;
 
 			if (status.isPreaction() || status.isSwiping()) {
 				positions = this.getPositionsFromEvent(event);
