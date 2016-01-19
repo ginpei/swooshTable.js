@@ -78,7 +78,13 @@
 			return el.closest(selector);
 		}
 		else {
-			return $(el).closest(selector)[0];
+			let elResult;
+			for (elResult=el; elResult; elResult=elResult.parentElement) {
+				if (elResult.matches(selector)) {
+					break;
+				}
+			}
+			return elResult;
 		}
 	}
 
@@ -263,9 +269,10 @@
 		 * Run only first time.
 		 */
 		_initRowTools: function() {
-			let $tools = $(this._create$rowTools());
-			$tools.appendTo(document.body);
+			let elTools = this._create$rowTools();
+			document.body.appendChild(elTools);
 
+			let $tools = $(elTools);
 			this.$rowTools = $tools;
 			this.elRowTools = $tools[0];
 
