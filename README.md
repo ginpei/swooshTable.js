@@ -42,12 +42,11 @@ I'll remove that dependency one day.
 
 ```html
 <script>
-var $table = $('.js-theTable');
-var elTable = $table[0];
-var theTable = SwooshTable(elTable);
-theTable.on('removerow', function(event, elRow) {
-  var $row = $(event.elRow);
-  $row.remove();
+$('.js-theTable > tr').each(function(i,el) {
+  var row = new UISwipe({ el:el });
+  row.on('click', function(event, data) {
+    row.destroy();
+  });
 });
 </script>
 ```
