@@ -11,9 +11,12 @@ webserver = require 'gulp-webserver'
 path =
 	src:
 		css: 'src/**/*.sass'
-		html: 'src/**/*.jade'
-		js: ['!src/**/*.react.js', 'src/**/*.js']
-		js_react: 'src/**/*.react.js'
+		js: 'src/**/*.js'
+	doc_src:
+		css: 'doc/**/*.sass'
+		html: 'doc/**/*.jade'
+		js: ['!doc/**/*.react.js', 'doc/**/*.js']
+		js_react: 'doc/**/*.react.js'
 		lib: 'lib/**/*'
 	dest:
 		css: 'public'
@@ -23,7 +26,7 @@ path =
 		lib: 'public'
 
 g.task 'clean', ->
-	del 'public'
+	del 'public/*'
 
 g.task 'css', ->
 	g.src path.src.css
@@ -34,19 +37,6 @@ g.task 'css', ->
 		.pipe g.dest(path.dest.css)
 		.pipe livereload()
 
-g.task 'html', ['build_html'], ->
-	g.src ''
-		.pipe livereload()
-
-# divide to assure loaded HTML that it's updated
-g.task 'build_html', ->
-	g.src path.src.html
-		.pipe plumber()
-		.pipe sourcemaps.init()
-		.pipe jade(client:false)
-		.pipe sourcemaps.write()
-		.pipe g.dest(path.dest.html)
-
 g.task 'js', ->
 	g.src path.src.js
 		.pipe plumber()
@@ -56,8 +46,39 @@ g.task 'js', ->
 		.pipe g.dest(path.dest.js)
 		.pipe livereload()
 
-g.task 'js_react', ->
-	g.src path.src.js_react
+g.task 'doc_css', ->
+	g.src path.doc_src.css
+		.pipe plumber()
+		.pipe sourcemaps.init()
+		.pipe sass( style:'minify' )
+		.pipe sourcemaps.write()
+		.pipe g.dest(path.dest.css)
+		.pipe livereload()
+
+g.task 'doc_html', ['doc_build_html'], ->
+	g.src ''
+		.pipe livereload()
+
+# divide to assure loaded HTML that it's updated
+g.task 'doc_build_html', ->
+	g.src path.doc_src.html
+		.pipe plumber()
+		.pipe sourcemaps.init()
+		.pipe jade(client:false)
+		.pipe sourcemaps.write()
+		.pipe g.dest(path.dest.html)
+
+g.task 'doc_js', ->
+	g.src path.doc_src.js
+		.pipe plumber()
+		.pipe sourcemaps.init()
+		.pipe babel(presets:'es2015')
+		.pipe sourcemaps.write()
+		.pipe g.dest(path.dest.js)
+		.pipe livereload()
+
+g.task 'doc_js_react', ->
+	g.src path.doc_src.js_react
 		.pipe plumber()
 		.pipe sourcemaps.init()
 		.pipe babel(presets:'react')
@@ -66,16 +87,18 @@ g.task 'js_react', ->
 		.pipe g.dest(path.dest.js_react)
 		.pipe livereload()
 
-g.task 'lib', ->
-	g.src path.src.lib
+g.task 'doc_lib', ->
+	g.src path.doc_src.lib
 		.pipe g.dest(path.dest.lib)
 
 g.task 'watch', ['webserver'], ->
 	livereload.listen()
 	g.watch path.src.css, ['css']
-	g.watch path.src.html, ['html']
 	g.watch path.src.js, ['js']
-	g.watch path.src.js_react, ['js_react']
+	g.watch path.doc_src.css, ['doc_css']
+	g.watch path.doc_src.html, ['doc_html']
+	g.watch path.doc_src.js, ['doc_js']
+	g.watch path.doc_src.js_react, ['doc_js_react']
 
 g.task 'webserver', ['build'], ->
 	g.src 'public'
@@ -85,10 +108,12 @@ g.task 'webserver', ['build'], ->
 
 g.task 'build', [
 	'css'
-	'html'
 	'js'
-	'js_react'
-	'lib'
+	'doc_css'
+	'doc_html'
+	'doc_js'
+	'doc_js_react'
+	'doc_lib'
 ]
 
 g.task 'default', [ 'watch' ]
