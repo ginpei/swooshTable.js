@@ -19,14 +19,10 @@ path =
 		js_react: 'doc/**/*.react.js'
 		lib: 'doc/lib/**/*'
 	dest:
-		css: 'public'
-		html: 'public'
-		js: 'public'
-		js_react: 'public'
-		lib: 'public'
+		public: 'public'
 
 g.task 'clean', ->
-	del 'public/*'
+	del "#{path.dest.public}/*"
 
 g.task 'css', ->
 	g.src path.src.css
@@ -34,7 +30,7 @@ g.task 'css', ->
 		.pipe sourcemaps.init()
 		.pipe sass( style:'minify' )
 		.pipe sourcemaps.write()
-		.pipe g.dest(path.dest.css)
+		.pipe g.dest(path.dest.public)
 		.pipe livereload()
 
 g.task 'js', ->
@@ -43,7 +39,7 @@ g.task 'js', ->
 		.pipe sourcemaps.init()
 		.pipe babel(presets:'es2015')
 		.pipe sourcemaps.write()
-		.pipe g.dest(path.dest.js)
+		.pipe g.dest(path.dest.public)
 		.pipe livereload()
 
 g.task 'doc_css', ->
@@ -52,7 +48,7 @@ g.task 'doc_css', ->
 		.pipe sourcemaps.init()
 		.pipe sass( style:'minify' )
 		.pipe sourcemaps.write()
-		.pipe g.dest(path.dest.css)
+		.pipe g.dest(path.dest.public)
 		.pipe livereload()
 
 g.task 'doc_html', ['doc_build_html'], ->
@@ -66,7 +62,7 @@ g.task 'doc_build_html', ->
 		.pipe sourcemaps.init()
 		.pipe jade(client:false)
 		.pipe sourcemaps.write()
-		.pipe g.dest(path.dest.html)
+		.pipe g.dest(path.dest.public)
 
 g.task 'doc_js', ->
 	g.src path.doc_src.js
@@ -74,7 +70,7 @@ g.task 'doc_js', ->
 		.pipe sourcemaps.init()
 		.pipe babel(presets:'es2015')
 		.pipe sourcemaps.write()
-		.pipe g.dest(path.dest.js)
+		.pipe g.dest(path.dest.public)
 		.pipe livereload()
 
 g.task 'doc_js_react', ->
@@ -84,12 +80,12 @@ g.task 'doc_js_react', ->
 		.pipe babel(presets:'react')
 		.pipe babel(presets:'es2015')
 		.pipe sourcemaps.write()
-		.pipe g.dest(path.dest.js_react)
+		.pipe g.dest(path.dest.public)
 		.pipe livereload()
 
 g.task 'doc_lib', ->
 	g.src path.doc_src.lib
-		.pipe g.dest(path.dest.lib)
+		.pipe g.dest(path.dest.public)
 
 g.task 'watch', ['webserver'], ->
 	livereload.listen()
