@@ -87,7 +87,7 @@ g.task 'doc_lib', ->
 	g.src path.doc_src.lib
 		.pipe g.dest(path.dest.public)
 
-g.task 'watch', ['webserver'], ->
+g.task 'watch', ->
 	livereload.listen()
 	g.watch path.src.css, ['css']
 	g.watch path.src.js, ['js']
@@ -112,5 +112,5 @@ g.task 'build', [
 	'doc_lib'
 ]
 
-g.task 'default', [ 'watch' ]
+g.task 'default', [ 'watch', 'webserver' ]
 
