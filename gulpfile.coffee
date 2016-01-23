@@ -15,9 +15,9 @@ path =
 	doc_src:
 		css: 'doc/**/*.sass'
 		html: 'doc/**/*.jade'
-		js: ['!doc/**/*.react.js', 'doc/**/*.js']
+		js: ['!doc/**/*.react.js', '!doc/lib/**/*', 'doc/**/*.js']
 		js_react: 'doc/**/*.react.js'
-		lib: 'lib/**/*'
+		lib: 'doc/lib/**/*'
 	dest:
 		css: 'public'
 		html: 'public'
