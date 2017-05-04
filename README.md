@@ -2,6 +2,8 @@
 
 # SwooshTable.js
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ginpei/swooshTable.js.svg)](https://greenkeeper.io/)
+
 SwooshTable.js is a library enables table rows swipable and shows operation buttons.
 
 # Usage
